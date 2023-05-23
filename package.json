@@ -1,0 +1,22 @@
+{
+  "name": "spacebookingbackend",
+  "version": "1.0.0",
+  "description": "Space Booking Backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sketodee/SpaceBookingBackend.git"
+  },
+  "author": "Shobande James",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sketodee/SpaceBookingBackend/issues"
+  },
+  "homepage": "https://github.com/Sketodee/SpaceBookingBackend#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
