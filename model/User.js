@@ -27,7 +27,7 @@ const userSchema = new Schema({
             default: 2001
         }, 
         Admin: Number, 
-        Editor: Number
+        Approver: Number
     }
 })
 

@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors')
 const corsOptions = require('./config/corsOptions')
 const {logger} = require('./middleware/logEvents')
+const verifyJWT = require('./middleware/verifyJWT') 
 const credentials = require('./middleware/credentials')
 const errorHandler = require('./middleware/errorHandler')
 const mongoose = require('mongoose')
@@ -32,6 +33,10 @@ app.use(express.json())
 app.use('/api/test', require('./routes/api/test'))
 app.use('/api/space', require('./routes/api/spaces'))
 app.use('/api/auth', require('./routes/api/auth'))
+
+//route handlers that needs JWT authorization 
+app.use(verifyJWT)
+
 
 //custom error handler
 app.use(errorHandler)
