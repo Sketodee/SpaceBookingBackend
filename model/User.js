@@ -9,7 +9,7 @@ const userSchema = new Schema({
         maxlength: 50
     },
     email: {
-        type: Number, 
+        type: String, 
         required: true, 
     }, 
     phoneNumber: {
@@ -20,14 +20,15 @@ const userSchema = new Schema({
         type: String, 
         required: true
     },
-    // roles : {
-    //     User: {
-    //         type: Number, 
-    //         default: 2001
-    //     }, 
-    //     Admin: Number, 
-    //     Editor: Number
-    // }
+    refreshToken: String, 
+    roles : {
+        User: {
+            type: Number, 
+            default: 2001
+        }, 
+        Admin: Number, 
+        Editor: Number
+    }
 })
 
 module.exports = mongoose.model('User', userSchema)

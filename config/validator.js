@@ -29,22 +29,39 @@ const validateUser= (user) => {
             'any.required': 'Password is required',
             'string.empty': 'Password cannot be empty'
         }), 
-        // confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
-        //     'any.required': 'Confirm password is required',
-        //     'string.empty': 'Confirm password cannot be empty',
-        //     'any.only': 'Passwords must match'
-        // }), 
-        // roles: Joi.object().keys({
-        //     User: Joi.number().default(2001),
-        //     Admin: Joi.number(),
-        //     Editor: Joi.number()
-        //   })
+        confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+            'any.required': 'Confirm password is required',
+            'string.empty': 'Confirm password cannot be empty',
+            'any.only': 'Passwords must match'
+        }), 
+        roles: Joi.object().keys({
+            User: Joi.number().default(2001),
+            Admin: Joi.number(),
+            Editor: Joi.number()
+          })
     })
 
     return userDtoSchema.validate(user, {abortEarly: false})
 }
 
+const validateLogin = (loginDetails) => {
+    const loginSchema = Joi.object({
+        email: Joi.string().email().required().messages({
+            'any.required': 'Email is required',
+            'string.empty': 'Email cannot be empty',
+            'string.email': 'Invalid email format'
+        }), 
+        password: Joi.string().required().messages({
+            'any.required': 'Password is required',
+            'string.empty': 'Password cannot be empty'
+        })
+    })
+
+    return loginSchema.validate(loginDetails,{abortEarly: false})
+}
+
 module.exports = {
     validateSpace, 
-    validateUser
+    validateUser, 
+    validateLogin
 }
