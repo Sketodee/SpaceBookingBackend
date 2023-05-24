@@ -31,6 +31,7 @@ app.use(express.json())
 //Route handlers without JWT authorization 
 app.use('/api/test', require('./routes/api/test'))
 app.use('/api/space', require('./routes/api/spaces'))
+app.use('/api/auth', require('./routes/api/auth'))
 
 //custom error handler
 app.use(errorHandler)

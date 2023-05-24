@@ -4,11 +4,15 @@ const Schema = mongoose.Schema
 const spaceSchema = new Schema({
     name: {
         type: String, 
-        required: true
+        required: true, 
+        minlength: 3,
+        maxlength: 50
     },
     size: {
         type: Number, 
-        required: true
+        required: true, 
+        min: 10, 
+        max: 60
     }
 })
 

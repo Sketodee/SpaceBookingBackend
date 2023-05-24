@@ -1,4 +1,5 @@
 const Space = require ('../model/Space')
+const validator = require('../config/validator')
 
 const getAllSpaces = async (req, res) => {
   const spaces = await Space.find();
@@ -7,8 +8,10 @@ const getAllSpaces = async (req, res) => {
 }
 
 const createNewSpace = async(req, res) => {
-    if(!req?.body?.name || !req?.body?.size) {
-            return res.status(400).json({'message': 'Name and size are required'})
+    const {error} = validator.validateSpace(req.body)
+    if(error) {
+        const validationErrors = error.details.map((err) => err.message)
+        return res.status(400).json({'Validation Errors' : validationErrors})
     }
 
     try {
