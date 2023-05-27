@@ -1,6 +1,7 @@
 const express = require ('express')
 const router = express.Router()
 const authController = require('../../controllers/authController')
+const verifyRoles = require('../../middleware/verifyRoles')
 
 router.route('/register')
     .post(authController.register)

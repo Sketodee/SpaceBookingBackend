@@ -60,6 +60,19 @@ const validateLogin = (loginDetails) => {
     return loginSchema.validate(loginDetails,{abortEarly: false})
 }
 
+const validateBooking = (booking) => {
+    const bookingSchema = Joi.object({
+        spaceId: Joi.string().required().messages({
+            'any.required': 'spaceId is required',
+            'string.empty': 'spaceId cannot be empty'
+        }), 
+        numberOfGuests: Joi.number().integer().required({
+            'number.base': 'Number of guests must be a number',
+            'any.required': 'Number of guests is required'
+        })
+    })
+}
+
 module.exports = {
     validateSpace, 
     validateUser, 
