@@ -66,10 +66,43 @@ const validateBooking = (booking) => {
             'any.required': 'spaceId is required',
             'string.empty': 'spaceId cannot be empty'
         }), 
-        numberOfGuests: Joi.number().integer().required({
-            'number.base': 'Number of guests must be a number',
-            'any.required': 'Number of guests is required'
-        })
+        numberOfGuests: Joi.number().integer().required().messages({
+            'number.base': 'numberOfGuests must be a number',
+            'any.required': 'numberOfGuests is required'
+        }), 
+        decorations: Joi.boolean().required().messages({
+            'boolean.base': 'decorations must be a boolean value',
+            'any.required': 'decorations is required'
+        }), 
+        eventType: Joi.string().required().messages({
+            'any.required': ' is required',
+            'string.empty': 'Event Type cannot be empty'
+        }),
+        feedingRequirement: Joi.string().required().messages({
+            'any.required': 'feedingRequirement is required',
+            'string.empty': 'feedingRequirement cannot be empty'
+        }),
+        musicPolicy: Joi.boolean().required().messages({
+            'boolean.base': 'musicPolicy  must be a boolean value',
+            'any.required': 'musicPolicy  is required'
+        }), 
+       bookedDates : Joi.array()
+       .items(
+            Joi.object({
+            date: Joi.date().required().messages({
+                'date.base': 'date must be a valid date',
+                'any.required': 'date is required'
+            })
+          })
+       )
+       .min(1)
+       .messages({
+         'array.base': 'bookedDates must be an array',
+         'array.empty': 'bookedDates cannot be empty',
+         'any.required': 'bookedDates are required',
+         'array.min': 'At least one bookedDate is required',
+        //  'any.only': 'Each tag must be a non-empty string'
+       })
     })
 }
 
