@@ -33,9 +33,11 @@ app.use(express.json())
 app.use('/api/test', require('./routes/api/test'))
 app.use('/api/space', require('./routes/api/spaces'))
 app.use('/api/auth', require('./routes/api/auth'))
+app.use('/api/booking', require('./routes/api/booking'))
 
 //route handlers that needs JWT authorization 
 app.use(verifyJWT)
+
 
 
 //custom error handler

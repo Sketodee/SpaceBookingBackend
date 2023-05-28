@@ -3,8 +3,11 @@ const Schema = mongoose.Schema
 
 const bookingSchema = new Schema({
     spaceId : {
-        type: String ,
+        type: Schema.Types.ObjectId ,
         required: true
+    }, 
+    userId : {
+        type: Schema.Types.ObjectId
     }, 
     numberOfGuests: {
         type: Number, 

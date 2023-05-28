@@ -75,7 +75,7 @@ const validateBooking = (booking) => {
             'any.required': 'decorations is required'
         }), 
         eventType: Joi.string().required().messages({
-            'any.required': ' is required',
+            'any.required': ' event type is required',
             'string.empty': 'Event Type cannot be empty'
         }),
         feedingRequirement: Joi.string().required().messages({
@@ -96,6 +96,7 @@ const validateBooking = (booking) => {
           })
        )
        .min(1)
+       .required()
        .messages({
          'array.base': 'bookedDates must be an array',
          'array.empty': 'bookedDates cannot be empty',
@@ -104,10 +105,13 @@ const validateBooking = (booking) => {
         //  'any.only': 'Each tag must be a non-empty string'
        })
     })
+
+    return bookingSchema.validate(booking, {abortEarly: false})
 }
 
 module.exports = {
     validateSpace, 
     validateUser, 
-    validateLogin
+    validateLogin, 
+    validateBooking
 }
