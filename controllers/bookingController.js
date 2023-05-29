@@ -49,7 +49,39 @@ const createNewBooking = async (req, res) => {
     }
 }
 
+const approveBooking = async(req, res) => {
+    var bookingId = req?.query?.bookingId
+    if(!bookingId) {
+        return res.status(400).json({'message': 'bookingId parameter is required' })
+    }
+
+    try {
+        //check if booking exists in database
+        const booking =await Booking.findById(bookingId);
+
+        if(!booking) return res.status(400).json({'message': 'Booking not found'}) 
+
+        //change the state of the booking 
+        booking.status = "Approved"
+        const result = await booking.save()
+        console.log(result)
+
+        res.status(200).json({'message' : 'Booking approved successfully'})
+        
+    } catch (error) {
+        if (error.name === 'CastError') {
+            // Handle the invalid ID format error
+            return res.status(400).json({ 'message': 'Invalid bookingID format' });
+          }
+        console.log(error)
+        return res.status(400).json({'message': 'Booking not found'}) 
+    }
+    console.log(bookingId)
+    // res.status(200).json({'message': 'endpoint working'})
+}
+
 module.exports = {
     getAllBookings, 
-    createNewBooking
+    createNewBooking, 
+    approveBooking
 }

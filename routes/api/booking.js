@@ -8,4 +8,7 @@ router.route('/getallbookings')
 router.route('/createnewbooking')
     .post(bookingController.createNewBooking)
 
+router.route('/approvebooking')
+    .post(bookingController.approveBooking)
+
 module.exports = router

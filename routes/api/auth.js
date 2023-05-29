@@ -12,5 +12,7 @@ router.route('/login')
 router.route('/getallusers') 
     .get(authController.getAllUsers)
 
+router.route('/registersystemadmin')
+    .post(authController.registerSystemAdmin)
 
 module.exports = router
