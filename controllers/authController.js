@@ -35,7 +35,40 @@ const register = async (req, res) => {
             "password": hashedPassword
         })
         res.status(201).json({'message' : 'User created successfully'})
-        console.log(result)
+    } catch (error) {
+        return res.status(500).json({'message' : error.message})
+    }
+}
+
+const registerSystemAdmin = async (req, res) => {
+    const {error, value} = validator.validateUser(req.body)
+
+    if(error) {
+        const validationErrors = error.details.map((err) => err.message)
+        return res.status(400).json({'Validation Errors' : validationErrors})
+    }
+
+    //check database if user exist
+    const duplicate = await User.findOne({email : value.email}).exec()
+    if(duplicate) {
+        return res.status(409).json({'message': 'User already exists'})
+    }
+
+    try {
+        //encrypt the password 
+        const hashedPassword = await bcrypt.hash(value.password, 10)
+
+        //create and store the new user in the database 
+        const result = await User.create({
+            "name": value.name, 
+            "email": value.email, 
+            "phoneNumber": value.phoneNumber, 
+            "password": hashedPassword, 
+            "roles": {
+                "SystemAdmin": 1759
+            }
+        })
+        res.status(201).json({'message' : 'System Admin created successfully'})
     } catch (error) {
         return res.status(500).json({'message' : error.message})
     }
@@ -96,5 +129,6 @@ const login = async( req, res) => {
 module.exports = {
     register, 
     login, 
-    getAllUsers
+    getAllUsers, 
+    registerSystemAdmin
 }
