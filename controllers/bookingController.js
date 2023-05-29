@@ -5,7 +5,8 @@ const validator = require('../config/validator')
 const { Schema } = require('mongoose')
 
 const getAllBookings = async (req, res) => {
-    const bookings = await Booking.find().populate('bookedDates')
+    //check the roles of the user, if system admin, return all bookings , else return booking that corresponds to user 
+    const bookings = req.roles.includes(1759) ? await Booking.find().populate('bookedDates') : await Booking.find({userId: req.id}).populate('bookedDates')
     if(!bookings) return res.sendStatus(204)
     res.json(bookings)
 }
@@ -62,7 +63,36 @@ const approveBooking = async(req, res) => {
         if(!booking) return res.status(400).json({'message': 'Booking not found'}) 
 
         //change the state of the booking 
-        booking.status = "Approved"
+        booking.bookingStatus = "Approved"
+        const result = await booking.save()
+        console.log(result)
+
+        res.status(200).json({'message' : 'Booking approved successfully'})
+        
+    } catch (error) {
+        if (error.name === 'CastError') {
+            // Handle the invalid ID format error
+            return res.status(400).json({ 'message': 'Invalid bookingID format' });
+          }
+        console.log(error)
+        return res.status(400).json({'message': 'Booking not found'}) 
+    }
+}
+
+const declineBooking = async (req, res) => {
+    var bookingId = req?.query?.bookingId
+    if(!bookingId) {
+        return res.status(400).json({'message': 'bookingId parameter is required' })
+    }
+
+    try {
+        //check if booking exists in database
+        const booking =await Booking.findById(bookingId);
+
+        if(!booking) return res.status(400).json({'message': 'Booking not found'}) 
+
+        //change the state of the booking 
+        booking.bookingStatus = "Declined"
         const result = await booking.save()
         console.log(result)
 
@@ -83,5 +113,6 @@ const approveBooking = async(req, res) => {
 module.exports = {
     getAllBookings, 
     createNewBooking, 
-    approveBooking
+    approveBooking, 
+    declineBooking
 }

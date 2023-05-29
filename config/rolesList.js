@@ -4,3 +4,5 @@ const ROLES_LIST = {
     "Approver" : 1984, 
     "SystemAdmin": 1759
 }
+
+module.exports = ROLES_LIST
